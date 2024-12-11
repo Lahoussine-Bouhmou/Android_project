@@ -1,0 +1,116 @@
+fun main(args: Array<String>) {
+    // Task 1: Print a welcome message
+    print("Step 1: ")
+    println("Welcome to the Kotlin programming world!")
+
+    // Task 4: Show all room names
+    print("Step 4: ")
+    DisplayNamesOfRooms()
+
+    // Task 5: Show rooms with specific criteria
+    print("Step 5: ")
+    DisplayFilteredRooms()
+
+    // Task 8: Summarize notifications
+    print("Step 8: ")
+    printNotificationSummary(51)
+    print("Step 8: ")
+    printNotificationSummary(135)
+
+    // Task 9: Calculate ticket prices for different age groups
+    val child = 5
+    val adult = 28
+    val senior = 87
+    val oops = -1
+
+    print("Step 9: ")
+    println("Ticket price for age $child: $${ticketPrice(child)}.")
+    println("Ticket price for age $adult: $${ticketPrice(adult)}.")
+    println("Ticket price for age $senior: $${ticketPrice(senior)}.")
+    println("Ticket price for an invalid age $oops: ${ticketPrice(oops)}.")
+
+    // Task 10: Display details of user profiles
+    val elodie = Profile("Elodie", 21, "Tennis", null)
+    val eduardo = Profile("Eduardo", 22, "Tennis", elodie)
+
+    displayUserProfile(listOf(elodie, eduardo))
+}
+
+// Data class to store room information
+data class RoomDto (
+    val id: Long,
+    val name: String,
+    val currentTemperature: Double? = null
+)
+
+// A predefined list of rooms
+val rooms = listOf(
+    RoomDto(1, "Room1"),
+    RoomDto(2, "Room2", 20.3),
+    RoomDto(id = 3, name = "Room3", currentTemperature = 20.3),
+    RoomDto(4, "Room4", currentTemperature = 19.3),
+)
+
+// Function to print all room names
+fun DisplayNamesOfRooms() {
+    val roomNamesList = rooms.map { room -> room.name }
+    val roomNames = roomNamesList.joinToString()
+    println("Available rooms: $roomNames")
+}
+
+// Function to filter rooms based on temperature
+fun DisplayFilteredRooms() {
+    val roomNamesList = rooms
+        .filter { it.currentTemperature != null && it.currentTemperature >= 20 }
+        .map { it.name }
+    val roomNames = roomNamesList.joinToString()
+    println("Rooms with temperature >= 20°C: $roomNames")
+}
+
+// Declare and use a nullable variable for the main room
+fun defineMainRoom() {
+    // Nullable variable representing a room
+    var mainRoom: RoomDto? = RoomDto(5, "Room5", currentTemperature = 19.3)
+
+    println("Main room temperature: ${mainRoom?.currentTemperature}")
+}
+
+// Count the number of characters in the name of a room
+fun countNumberOfCharacters(inputRoom: RoomDto?): Int? {
+    val roomLength: Int? = inputRoom?.name?.length
+    return roomLength
+}
+
+// Function to display a summary of notifications
+fun printNotificationSummary(numberOfMessages: Int) {
+    val numberToShow = if (numberOfMessages > 99) "99+" else numberOfMessages.toString()
+    println("Notification count: $numberToShow")
+}
+
+// Function to calculate the price of a ticket based on age
+fun ticketPrice(age: Int): Int? {
+    return when {
+        age in 0..12 -> 10          // Children's ticket price: $10
+        age in 13..64 -> 20         // Standard ticket price: $20
+        age >= 65 -> 15             // Senior ticket price: $15
+        else -> null                // Invalid age returns null
+    }
+}
+
+// Data class to store profile information
+data class Profile(
+    val username: String,
+    val age: Int,
+    val hobby: String,
+    val partner: Profile?
+)
+
+// Function to display user profile details
+fun displayUserProfile(profiles: List<Profile>) {
+    profiles.forEach {
+        println("User name: ${it.username}")
+        println("User age: ${it.age}")
+        println("Favorite hobby: ${it.hobby}")
+        println("Partner details: ${it.partner}")
+    }
+}
